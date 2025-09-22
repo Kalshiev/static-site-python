@@ -67,3 +67,47 @@ class TestSplitNodesImage(unittest.TestCase):
             ],
             new_nodes
         )
+
+class TestSplitNodesLink(unittest.TestCase):
+    def test_split_links(self):
+        node = TextNode(
+            "This is text with a [link](https://i.imgur.com/zjjcJKZ.png) and another [link](https://i.imgur.com/3elNhQu.png)",
+            TextType.TEXT,
+        )
+        new_nodes = split_nodes_link([node])
+        self.assertListEqual(
+            [
+                TextNode("This is text with a ", TextType.TEXT),
+                TextNode("link", TextType.LINK, "https://i.imgur.com/zjjcJKZ.png"),
+                TextNode(" and another ", TextType.TEXT),
+                TextNode(
+                    "link", TextType.LINK, "https://i.imgur.com/3elNhQu.png"
+                ),
+            ],
+            new_nodes,
+        )
+
+    def test_split_no_links(self):
+        node = TextNode(
+            "This text has no links", TextType.TEXT,
+        )
+        new_nodes = split_nodes_link([node])
+        self.assertEqual(
+            [
+                TextNode("This text has no links", TextType.TEXT)
+            ],
+            new_nodes
+        )
+
+    def test_split_link_before_text(self):
+        node = TextNode(
+            "[link](https://i.imgur.com/zjjcJKZ.png) This is a link", TextType.TEXT,
+        )
+        new_nodes = split_nodes_link([node])
+        self.assertEqual(
+            [
+                TextNode("link", TextType.LINK, "https://i.imgur.com/zjjcJKZ.png"),
+                TextNode(" This is a link", TextType.TEXT)
+            ],
+            new_nodes
+        )
