@@ -1,7 +1,8 @@
-from textnode import TextNode, TextType
+from copy_all_files import *
 
 def main():
-    print(TextNode("This is some anchor text", "link", "https://bootdev.com"))
+    delete_dir("./public")
+    copy_dir("./static", "./public")
 
 
 if __name__ == "__main__":

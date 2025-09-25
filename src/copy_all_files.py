@@ -25,5 +25,3 @@ def copy_dir(source, destination):
                 os.mkdir(new_destination)
                 copy_dir(file_path, new_destination)
 
-delete_dir("./public")
-copy_dir("./static", "./public")

@@ -19,3 +19,10 @@ def extract_markdown_links(text):
         links.append((alt_text[i], link[i]))
 
     return links
+
+def extract_title(markdown):
+    lines = markdown.split("\n\n")
+    for line in lines:
+        if line.strip().startswith("# "):
+            return line.strip()[2:]
+    raise Exception("No title found")
