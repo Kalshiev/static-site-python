@@ -37,11 +37,11 @@ def markdown_to_html_node(markdown):
             fullquote = ""
             for line in block.splitlines():
                 if line.strip().startswith("> "):
-                    s = line.lstrip()
-                    fullquote += f"\n{s[2:]}"
+                    s = line.strip()
+                    fullquote += f"{s[2:]}"
             quote_nodes.append(text_to_children(fullquote, "quote"))
             htmlnodes.append(
-                ParentNode("blockquote", quote_nodes)
+                text_to_children(fullquote, "quote")
             )
         elif blocktype is BlockType.ORDERED:
             li_nodes = []
@@ -78,5 +78,5 @@ def text_to_children(block, blocktype, hcount=0):
     elif blocktype == "list":
         children_nodes = ParentNode("li", children)
     elif blocktype == "quote":
-        children_nodes = ParentNode("p", children)
+        children_nodes = ParentNode("blockquote", children)
     return children_nodes

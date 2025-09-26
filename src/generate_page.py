@@ -1,5 +1,6 @@
 import os
 from md_to_htmlNode import markdown_to_html_node
+from markdown_regex import extract_title
 
 def generate_page(from_path, template_path, dest_path):
     print(f"Generating page from {from_path} to {dest_path} using {template_path}")
@@ -15,7 +16,13 @@ def generate_page(from_path, template_path, dest_path):
     with open(template) as html:
         html_template = html.read()
 
+    title = extract_title(markdown)
+    print(f"Extracted title: {title}")
+    body = markdown_to_html_node(markdown).to_html()
+    print(f"Generated body HTML: {body}")
+
+    final_html = html_template.replace("{{ Title }}", title).replace("{{ Content }}", body)
     
-
-
-generate_page("./content", "template.html", "")
+    dest_path = os.path.abspath(dest_path)
+    with open(dest_path, "w") as out:
+        out.write(final_html)
