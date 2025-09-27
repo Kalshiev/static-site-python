@@ -2,6 +2,7 @@ import os
 import shutil
 
 def delete_dir(dir):
+    newdir = os.path.dirname(dir)
     if os.path.exists(dir):
         files = os.listdir(dir)
         for file in files:
